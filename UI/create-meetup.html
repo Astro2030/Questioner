@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Questioner</title>
 </head>
-
 <body>
     <div class="nav-bar">
         <nav>
@@ -30,9 +29,39 @@
             </ul>
         </nav>
     </div>
+    <div class="formpopup" id="myForm"> 
+        <form action="/create-meetup.html" class="form-container">
+            <span class="close" onclick="closeForm()">&times;</span><br>
+            <h3>Create meetup</h3><br>
+            <div>
+                <textarea class="question-area" placeholder="Meetup Title....." required></textarea>
+            </div>
+        
+            <div>
+                <textarea class="question-area" placeholder="Description....." required></textarea>
+            </div>
+            <div>
+                <textarea class="question-area" placeholder="Venue......" required></textarea>
+            </div>
+            <input type="date" class="input txt-black" type="text" placeholder="Happening on"><br><br>
+            (Optional)<br><br><input type="file" name="imgfile" ><br><br>
+            <button type="submit" class="btn cancel">Add</button>
+        </form>
+    </div>
+    <div class="formpopup" id="delete">
+        <form action="create-meetup.html" class="form-container">
+            <h3>
+                Confirm Deletion
+            </h3><br>
+            <div class="allignment">
+                <button>Confirm</button>
+                <button>cancel</button>
+            </div>
+        </form>
+    </div>
     <div class="add-meetup">
         <div class="add-section1">
-            <a href="#"class="button-meetup bg-orange txt-blue button-orange">Create Meetup</a>
+            <button class="button-meetup bg-orange txt-blue button-orange" onclick="openForm()">Create Meetup</button>
         </div>
         <div class="row bg-lightgrey">
             <div class="meetup-list">
@@ -52,7 +81,7 @@
                             </p>
                         </div>
                         <div class="meetup-rsvp">
-                            <a href="#" class="button-header bg-orange txt-blue button-orange">Delete</a>
+                            <button class="button-header bg-orange txt-blue button-orange" onclick="openForum()">Delete</button>
                         </div>
                     </div>
                     <div class="bg-grey txt-black meetup-footer">
@@ -74,7 +103,7 @@
                             </p>
                         </div>
                         <div class="meetup-rsvp">
-                            <a href="#" class="button-header bg-orange txt-blue button-orange">Delete</a>
+                                <button class="button-header bg-orange txt-blue button-orange" onclick="openForum()">Delete</button>
                         </div>
                     </div>
                     <div class="bg-grey txt-black meetup-footer">
@@ -85,6 +114,7 @@
                     </div>
                     <div class="clear"></div>
                 </div>
+                <script src="js/script.js"></script>
                 <div class="meetup-card">
                     <div class="bg-lightgrey meetup-header">
                         <div class="meetup-details">
@@ -96,7 +126,7 @@
                             </p>
                         </div>
                         <div class="meetup-rsvp">
-                            <a href="#" class="button-header bg-orange txt-blue button-orange">Delete</a>
+                                <button class="button-header bg-orange txt-blue button-orange" onclick="openForum()">Delete</button>
                         </div>
                     </div>
                     <div class="bg-grey txt-black meetup-footer">

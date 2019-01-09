@@ -1,5 +1,3 @@
-'''this file is the entry point to our app'''
-
 import os
 from app import create_app
 

@@ -28,6 +28,12 @@ class MeetupsTestCase(unittest.TestCase):
 
         if  response:
             self.assertEqual(response.status_code, 404)
+
+    def test_get_one_meetup(self):
+        '''Test if the user can get a specific meetup record'''
+        response = self.client.get(
+            'api/v1/meetups/1', content_type="application/json")
+        self.assertEqual(response.status_code, 404)
         
 
 '''Standard unittest runner for executing the test'''

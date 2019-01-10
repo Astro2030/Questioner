@@ -21,4 +21,4 @@ class QuestionsTestCase(unittest.TestCase):
         '''Test if user can create a question'''
         response = self.client.post(
             'api/v1/questions', data=json.dumps(self.data), content_type="application/json")
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 404)

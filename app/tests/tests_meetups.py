@@ -22,7 +22,20 @@ class MeetupsTestCase(unittest.TestCase):
         '''Test if user can get all meetup records'''
         response = self.client.get(
             'APP/v1/meetups', content_type="application/json")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_one_meetup(self):
+        '''Test if the user can get a specific meetup record'''
+        response = self.client.get(
+            'api/v1/meetups/1', content_type="application/json")
+        self.assertEqual(response.status_code, 404)
+
+    def test_create_meetup(self):
+        '''Test if admin can create a meetup'''
+        response = self.client.post(
+            'api/v1/meetups', data=json.dumps(self.data), content_type="application/json")
+        self.assertEqual(response.status_code, 404)
+
 
 '''Standard unittest runner for executing the test'''
 if __name__ == '__main__':

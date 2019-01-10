@@ -1,4 +1,5 @@
 import os
+import click
 from app import create_app
 
 config_name = "development"

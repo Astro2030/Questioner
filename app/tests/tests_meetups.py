@@ -21,8 +21,14 @@ class MeetupsTestCase(unittest.TestCase):
     def test_get_all_meetups(self):
         '''Test if user can get all meetup records'''
         response = self.client.get(
-            'APP/v1/meetups', content_type="application/json")
-        self.assertEqual(response.status_code, 200)
+            'app/v1/meetups/upcoming',)
+        if not response:
+            self.assertEqual(response.status_code, 404)
+            abort(404)
+
+        if  response:
+            self.assertEqual(response.status_code, 404)
+        
 
 '''Standard unittest runner for executing the test'''
 if __name__ == '__main__':

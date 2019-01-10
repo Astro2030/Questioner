@@ -5,7 +5,6 @@ python:
 
 install:
   - pip install -r requirements.txt
-
   - pip install coveralls
 
 env:
@@ -13,7 +12,6 @@ env:
 
 script:
  - pytest --cov app/tests/v1
-
   - coveralls
 
 after_success:

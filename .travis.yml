@@ -1,17 +1,11 @@
 language: python
-
 python:
   - "3.6"
-
 install:
   - pip install -r requirements.txt
   - pip install coveralls
-
-env:
-  - FLASK_VERSION=1.0.2
-
 script:
  - pytest
-
+ - coverage run --source=app -m pytest && coverage report
 after_success:
   - coveralls

@@ -7,17 +7,16 @@ class AllMeetupsApi(Resource):
     '''Endpoint for all meetups functionality'''
 
     def post(self):
-        data = request.get_json()
+        data = request.get_json(force=True, silent=True)
 
         if not data:
             return "Data must be in JSON format", 404
         try:
             meetup_id = len(all_meetups) + 1
-            location = data["location"]
-            topic = data["topic"]
+            location = data['location']
+            topic = data['topic']
 
-            meetup_record = Meetups().create_meetup(meetup_id,
-                                                    location, topic)
+            meetup_record = Meetups().create_meetup(meetup_id,location, topic)
 
             if meetup_record:
                 response = jsonify({"status": 201,
@@ -76,4 +75,6 @@ class SingleMeetupApi(Resource):
             return {"Message": 'RSVP could not be saved'}, 400
 
         return {"Message": 'RSVP saved for meetup {} successfully'.format(meetup_id)}, 201
+
+
 

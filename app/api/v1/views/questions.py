@@ -34,8 +34,10 @@ class SingleQuestionApi(Resource):
 
         print(vote)
 
+        '''
         if vote != '+' and vote != '-':
             return "Vote can only be '+' or '-'"
-
+        '''
+        
         return Questions().upvote(question_id, vote)
 

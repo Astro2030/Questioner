@@ -28,4 +28,4 @@ class QuestionsTestCase(unittest.TestCase):
         vote = {"vote": "-"}
         response = self.client.patch(
             'api/v1/questions/1', data=json.dumps(vote), content_type="application/json")
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)

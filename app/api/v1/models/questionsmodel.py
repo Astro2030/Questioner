@@ -24,13 +24,16 @@ class Questions():
     def upvote(self, question_id, vote):
         '''Vote a question'''
 
+        new_upvotes = 0
+        new_downvotes = 0
+        action = ""
         question = [
             question for question in all_Questions if question['question_id'] == question_id
         ]
         if not question:
             return "Question does not exist", 400
         if vote == "+":
-            action = "upvoted"
+            str = "upvoted"
             new_upvotes = question[0]["upvotes"]+1
             new_downvotes = question[0]["downvotes"]
         elif vote == "-":
@@ -53,4 +56,4 @@ class Questions():
             if question['question_id'] == question_id:
                 all_Questions[i] = question_payload
 
-        return {"Message": 'You {} question {} successfully'.format(action, question_id)}, 200
+        return {"Message": 'You have {} question {} successfully'.format(action, question_id)}, 200

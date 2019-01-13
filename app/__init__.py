@@ -1,15 +1,20 @@
-from flask import Flask, Blueprint
-from flask_restful import Api, Resource
-from instance.config import app_config
+'''Application entry module'''
+from flask import Flask
+from flask_jwt_extended import JWTManager
 
+from app.api.v1 import AUTH_BLUEPRINT, API_BLUEPRINT
+
+from instance.config import APP_CONFIG
 
 def create_app(config_name):
-    '''load the right configurations from config.py given a config name'''
+    '''Instantiate the Flask application'''
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object(app_config["development"])
+    jwt = JWTManager(app)
 
-    '''Import and register the blueprint from the factory'''
-    from app.api.v1 import app_v1
-    app.register_blueprint(app_v1)
+    app.config.from_object(APP_CONFIG["development"])
+    app.config.from_pyfile('config.py')
+
+    app.register_blueprint(AUTH_BLUEPRINT)
+    app.register_blueprint(API_BLUEPRINT)
 
     return app

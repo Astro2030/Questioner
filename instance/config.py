@@ -1,31 +1,31 @@
-class Config(object):
-    "parent configuration class"
-    DEBUG = False
+'''Application configuration file'''
+import os
 
+class Config(object):
+    """Parent configuration class"""
+    DEBUG = False
+    SECRET_KEY = os.getenv('SECRET_KEY', 'my_secret')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 
 class DevelopmentConfig(Config):
-    "Configurations for Development"
+    """Development environment configurations"""
     DEBUG = True
 
-
 class TestingConfig(Config):
-    """Configurations for Testing,"""
+    """Testing environment configurations"""
     TESTING = True
     DEBUG = True
 
-
 class StagingConfig(Config):
-    """Configurations for Staging."""
+    """Staging environment configurations"""
     DEBUG = True
 
-
 class ProductionConfig(Config):
-    """Configurations for Production."""
+    """Production environment configurations"""
     DEBUG = False
     TESTING = False
 
-
-app_config = {
+APP_CONFIG = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'staging': StagingConfig,

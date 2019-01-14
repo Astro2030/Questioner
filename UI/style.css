@@ -320,7 +320,8 @@ footer{
     background-color: rgb(105, 104, 104);
     height: 80px;
     text-align: center;
-    color: #fafafa;
+	color: #fafafa;
+	position: relative;
 }
 h2, h3, h4, h5, h6 {
 	margin: 0px;

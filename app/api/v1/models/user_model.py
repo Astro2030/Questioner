@@ -10,14 +10,12 @@ SECRET_KEY = Config.SECRET_KEY
 
 class UserModel:
     '''Entity representation for a user'''
-    def __init__(self, firstname, lastname, othername, email, phone_number, \
+    def __init__(self, firstname, lastname, email, \
                 username, is_admin, password):
         self.user_id = len(USERS) + 1
         self.firstname = firstname
         self.lastname = lastname
-        self.othername = othername
         self.email = email
-        self.phone_number = phone_number
         self.username = username
         self.registered = str(datetime.utcnow())
         self.is_admin = is_admin

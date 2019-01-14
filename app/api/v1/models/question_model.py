@@ -1,6 +1,5 @@
 '''This module represents the question entity'''
 from datetime import datetime
-
 from app.api.v1.utils.serializer import serialize
 from app.api.v1.models.meetup_model import MeetupModel
 

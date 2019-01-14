@@ -21,9 +21,7 @@ class BaseTestCase(unittest.TestCase):
         self.user_registration = dict(
             firstname="test_first",
             lastname="test_last",
-            othername="test_other",
             email="test@example.com",
-            phone_number="0700000000",
             username="test_user",
             is_admin=False,
             password="12345"
@@ -32,9 +30,7 @@ class BaseTestCase(unittest.TestCase):
         self.admin_registration = dict(
             firstname="admin_first",
             lastname="admin_last",
-            othername="admin_other",
             email="admin@example.com",
-            phone_number="0711111111",
             username="test_admin",
             is_admin=True,
             password="901sT"
@@ -43,9 +39,7 @@ class BaseTestCase(unittest.TestCase):
         self.digit_username = dict(
             firstname="test_first",
             lastname="test_last",
-            othername="test_other",
             email="test@example.com",
-            phone_number="0700000000",
             username="1234",
             is_admin=False,
             password="12345"
@@ -55,9 +49,7 @@ class BaseTestCase(unittest.TestCase):
         self.empty_username = dict(
             firstname="test_first",
             lastname="test_last",
-            othername="test_other",
             email="test@example.com",
-            phone_number="0700000000",
             username="",
             is_admin=False,
             password="12345"
@@ -66,9 +58,7 @@ class BaseTestCase(unittest.TestCase):
         self.empty_password = dict(
             firstname="test_first",
             lastname="test_last",
-            othername="test_other",
             email="test@example.com",
-            phone_number="0700000000",
             username="test_user",
             is_admin=False,
             password=""
@@ -83,8 +73,8 @@ class BaseTestCase(unittest.TestCase):
             location="Test Location",
             images=[],
             topic="Test Topic",
-            happening_on="Jan 10 2018 5:31AM",
-            tags=["Programming", "Design"]
+            happening_on="Dec 20 2019 7:00AM",
+            tags=["Sports", "Music"]
         )
 
         self.question = dict(
@@ -132,9 +122,7 @@ class BaseTestCase(unittest.TestCase):
         user = UserModel(
             firstname="test_first",
             lastname="test_last",
-            othername="test_other",
             email="test@example.com",
-            phone_number="0700000000",
             username="test_user",
             is_admin=False,
             password="12345"
@@ -143,9 +131,7 @@ class BaseTestCase(unittest.TestCase):
         user_dict = dict(
             firstname="test_first",
             lastname="test_last",
-            othername="test_other",
             email="test@example.com",
-            phone_number="0700000000",
             username="test_user",
             is_admin=False,
             password="12345"

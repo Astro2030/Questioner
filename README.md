@@ -33,8 +33,8 @@ URL Endpoint                          | HTTP Request   |  Description           
 
 URL Endpoint                          | HTTP Request   |  Description                     | Access         |
 -----------------------------------   | -------------  | -----------------------          |--------------- |
-api/v1/auth/register                      |     POST        |  Retriees all meetups            |  Public        |
-api/v1/auth/logi    |     POST       |  Retrieves a specific meetup     |  Public        |
+api/v1/auth/register                      |     POST        |  Registers users            |  Public        |
+api/v1/auth/login    |     POST       |  Log's in a user     |  Public        |
 
 # Installing the Application Locally
 To use the application locally, please proceed as follows: Before running the application:

@@ -29,6 +29,13 @@ URL Endpoint                          | HTTP Request   |  Description           
 /meetups/<meetup_id>/questions/<question_id>/upvote |  post   |    upvotes a question | public    |
 /meetups/<meetup_id>/questions/<question_id>/downvote | post  |   Downvotes a question| public    |
 
+# Authentication Endpoints
+
+URL Endpoint                          | HTTP Request   |  Description                     | Access         |
+-----------------------------------   | -------------  | -----------------------          |--------------- |
+api/v1/auth/register                      |     POST        |  Retriees all meetups            |  Public        |
+api/v1/auth/logi    |     POST       |  Retrieves a specific meetup     |  Public        |
+
 # Installing the Application Locally
 To use the application locally, please proceed as follows: Before running the application:
 

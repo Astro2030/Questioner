@@ -27,6 +27,13 @@ URL Endpoint                          | HTTP Request   |  Description           
 api/v1/questions                      |     GET        |  Retriees all meetups            |  Public        |
 api/v1/questions/<int:question_id>    |     GET        |  Retrieves a specific meetup     |  Public        |
 
+# Authentication Endpoints
+
+URL Endpoint                          | HTTP Request   |  Description                     | Access         |
+-----------------------------------   | -------------  | -----------------------          |--------------- |
+api/v1/auth/register                      |     POST        |  Retriees all meetups            |  Public        |
+api/v1/auth/logi    |     POST       |  Retrieves a specific meetup     |  Public        |
+
 # Installing the Application Locally
 To use the application locally, please proceed as follows: Before running the application:
 

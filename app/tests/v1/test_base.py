@@ -5,9 +5,9 @@ import unittest
 from datetime import datetime
 
 from app import create_app
-from app.api.v1.utils.serializer import serialize
-from app.api.v1.models.meetup_model import ALL_MEETUPS
-from app.api.v1.models.question_model import ALL_QUESTIONS
+from app.api.v1.utils.utility import Utility
+from app.api.v1.models.meetup_model import MEETUPS
+from app.api.v1.models.question_model import QUESTIONS
 from app.api.v1.models.user_model import USERS, UserModel
 
 class BaseTestCase(unittest.TestCase):
@@ -22,7 +22,7 @@ class BaseTestCase(unittest.TestCase):
             firstname="test_first",
             lastname="test_last",
             email="test@example.com",
-            username="test_user",
+            username="username",
             is_admin=False,
             password="12345"
         )
@@ -59,13 +59,22 @@ class BaseTestCase(unittest.TestCase):
             firstname="test_first",
             lastname="test_last",
             email="test@example.com",
-            username="test_user",
+            username="username",
             is_admin=False,
             password=""
         )
 
-        self.user_login = dict(username="test_user", password="12345")
-        self.wrong_password = dict(username="test_user", password="abcde")
+        self.wrong_email_registration = dict(
+            firstname="test_first",
+            lastname="test_last",
+            email="testexample.com",
+            username="test",
+            is_admin=False,
+            password="12345"
+        )
+
+        self.user_login = dict(username="username", password="12345")
+        self.wrong_password = dict(username="username", password="abcde")
 
         self.admin_login = dict(username="test_admin", password="901sT")
 
@@ -73,8 +82,16 @@ class BaseTestCase(unittest.TestCase):
             location="Test Location",
             images=[],
             topic="Test Topic",
-            happening_on="Dec 20 2019 7:00AM",
-            tags=["Sports", "Music"]
+            happening_on="Jan 10 2019 3:30PM",
+            tags=["Sports", "study"]
+        )
+
+        self.new_meetup = dict(
+            location="Test New Location",
+            images=[],
+            topic="Test New Topic",
+            happening_on="Jan 15 2019 11:00AM",
+            tags=["Sports", "study"]
         )
 
         self.question = dict(
@@ -85,17 +102,17 @@ class BaseTestCase(unittest.TestCase):
         self.rsvp = dict(response="maybe")
 
     def tearDown(self):
-        del ALL_QUESTIONS[:]
-        del ALL_MEETUPS[:]
+        del QUESTIONS[:]
+        del MEETUPS[:]
         del USERS[:]
         self.app_context.pop()
 
     def get_accept_content_type_headers(self):
         '''Return the content type headers for the body'''
-        return {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+        content_type = {}
+        content_type['Accept'] = 'application/json'
+        content_type['Content-Type'] = 'application/json'
+        return content_type
 
     def get_authentication_headers(self, access_token):
         '''Return the authentication header'''
@@ -103,8 +120,8 @@ class BaseTestCase(unittest.TestCase):
         authentication_headers['Authorization'] = "Bearer {}".format(access_token)
         return authentication_headers
 
-    def get_response_from_user_login(self, user_registration, user_login):
-        '''Return a response from user log in'''
+    def get_access_token(self, user_registration, user_login):
+        '''Fetch access token from user login'''
         self.client().post(
             '/auth/register',
             headers=self.get_accept_content_type_headers(),
@@ -115,7 +132,25 @@ class BaseTestCase(unittest.TestCase):
             headers=self.get_accept_content_type_headers(),
             data=json.dumps(user_login)
         ) # User Log In
-        return res
+        response_msg = json.loads(res.data.decode("UTF-8"))
+        access_token = response_msg["access_token"]
+        return access_token
+
+    def create_meetup(self, access_token, meetup):
+        '''Create a meetup record'''
+        self.client().post(
+            '/api/v1/meetups',
+            headers=self.get_authentication_headers(access_token),
+            data=json.dumps(meetup)
+        )
+
+    def create_question(self, access_token, question):
+        '''Create a question record'''
+        self.client().post(
+            '/api/v1/meetups/1/questions',
+            headers=self.get_authentication_headers(access_token),
+            data=json.dumps(question)
+        )
 
     def test_serialize_function(self):
         '''Test the function serialize() converts an object to a dictionary'''
@@ -123,22 +158,22 @@ class BaseTestCase(unittest.TestCase):
             firstname="test_first",
             lastname="test_last",
             email="test@example.com",
-            username="test_user",
+            username="username",
             is_admin=False,
             password="12345"
         )
-        serialized_user_obj = serialize(user)
+        serialized_user_obj = Utility.serialize(user)
         user_dict = dict(
             firstname="test_first",
             lastname="test_last",
             email="test@example.com",
-            username="test_user",
+            username="username",
             is_admin=False,
             password="12345"
         )
         self.assertTrue(serialized_user_obj, user_dict)
         now_date = datetime.utcnow()
-        serialized_date = serialize(now_date)
+        serialized_date = Utility.serialize(now_date)
         self.assertTrue(serialized_date, now_date.isoformat())
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from app.tests.v1.test_base import BaseTestCase
 
 class UserTestCase(BaseTestCase):
     '''Test definitions for a user'''
-    def test_user_registration(self):
+    def username_registration(self):
         '''Test the API can register a user'''
         res = self.client().post(
             '/auth/register',
@@ -17,7 +17,7 @@ class UserTestCase(BaseTestCase):
         response_msg = json.loads(res.data.decode("UTF-8"))
         self.assertEqual(response_msg["status"], 201)
         self.assertTrue(response_msg["data"][0]["message"])
-        self.assertEqual(response_msg["data"][0]["message"], "Create a user record")
+        self.assertEqual(response_msg["data"][0]["message"], "User is successfully created")
 
     def test_digit_username(self):
         '''
@@ -58,6 +58,22 @@ class UserTestCase(BaseTestCase):
         response_msg = json.loads(res.data.decode("UTF-8"))
         self.assertEqual(response_msg["message"], "password cannot be empty")
 
+    def test_invalid_email_address_registration(self):
+        '''
+        Test the API cannot register a user with an invalid email address
+        '''
+        res = self.client().post(
+            '/auth/register',
+            headers=self.get_accept_content_type_headers(),
+            data=json.dumps(self.wrong_email_registration)
+        )
+        response_msg = json.loads(res.data.decode("UTF-8"))
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(
+            response_msg['message'],
+            "The email address is not valid. It must have exactly one @-sign."
+        )
+
     def test_duplicate_user_registration(self):
         '''
         Test the API can register a user only once
@@ -73,14 +89,14 @@ class UserTestCase(BaseTestCase):
             headers=self.get_accept_content_type_headers(),
             data=json.dumps(self.user_registration)
         ) # Second user registration
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(res.status_code, 409)
         response_msg = json.loads(res.data.decode("UTF-8"))
         self.assertEqual(
             response_msg["message"],
-            "A user with username 'test_user' already exists!"
+            "A user with username 'username' already exists!"
         )
 
-    def test_user_login(self):
+    def username_login(self):
         '''Test the API can log in a user'''
         res = self.client().post(
             '/auth/register',
@@ -102,7 +118,7 @@ class UserTestCase(BaseTestCase):
             headers=self.get_accept_content_type_headers(),
             data=json.dumps(self.user_registration)
         )
-        self.assertEqual(UserModel.get_user_by_username('test_user'), USERS[0])
+        self.assertEqual(UserModel.get_user_by_username('username'), USERS[0])
 
     def test_incorrect_username(self):
         '''Test the API cannot log in a user who is not yet registered'''
@@ -111,9 +127,9 @@ class UserTestCase(BaseTestCase):
             headers=self.get_accept_content_type_headers(),
             data=json.dumps(self.user_login)
         )
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 404)
         response_msg = json.loads(res.data.decode("UTF-8"))
-        self.assertEqual("User with username 'test_user' doesn't exist!", response_msg["message"])
+        self.assertEqual("User with username 'username' doesn't exist!", response_msg["message"])
 
     def test_incorrect_password(self):
         '''Test the API cannot log in a user with an incorrect password'''

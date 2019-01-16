@@ -1,5 +1,3 @@
-'''This module represents an meetup rsvp entity'''
-
 RSVPS = [] # Data store for the RSVP
 
 class RsvpModel:

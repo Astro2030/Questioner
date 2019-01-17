@@ -1,6 +1,14 @@
 '''Application configuration file'''
 import os
 
+POSTGRES_CONFIG = {
+    'host':'localhost',
+    'port':5432,
+    'user':'admin',
+    'password': 'password123',
+    'database':'questioner'
+}
+
 class Config(object):
     """Parent configuration class"""
     DEBUG = False

@@ -3,9 +3,9 @@ from flask import abort
 from flask_jwt_extended import create_access_token
 from flask_restful import Resource, reqparse
 
-from app.api.v1.utils.utility import Utility
-from app.api.v1.utils.validator import ValidationHandler
-from app.api.v1.models.user_model import UserModel
+from app.api.v2.utils.utility import Utility
+from app.api.v2.utils.validator import ValidationHandler
+from app.api.v2.models.user_model import UserModel
 
 class UserRegistration(Resource):
     """Register a new user"""
@@ -22,14 +22,7 @@ class UserRegistration(Resource):
         data = parser.parse_args()
 
         # Create an instance of a user
-        user = UserModel(
-            firstname=data['firstname'],
-            lastname=data['lastname'],
-            email=data['email'],
-            username=data['username'],
-            is_admin=data['is_admin'],
-            password=UserModel.generate_password_hash(data['password'])
-        )
+        user = UserModel()
         firstname=data['firstname']
         lastname=data['lastname']
         username = data['username']
@@ -51,16 +44,22 @@ class UserRegistration(Resource):
         # Validate the password
         ValidationHandler.validate_password(password)
 
-        users = UserModel.get_all_users()
-
+        users = user.get_all_users()
+        user_details = {
+            'firstname':data['firstname'],
+            'lastname':data['lastname'],
+            'username': data['username'],
+            'password' : user.generate_password_hash(data['password']),
+            'email' : data['email'],
+            'is_admin':False,
+        }
         ValidationHandler.validate_existing_user(users, username)
+        new_user = user.add_user(user_details)
 
-        UserModel.add_user(Utility.serialize(user))
         return {
             "status": 201,
             "data": [
                 {
-                    "id": user.get_user_id(),
                     "message": "User is successfully created"
                 }
             ]
@@ -77,7 +76,6 @@ class UserLogin(Resource):
         data = parser.parse_args()
 
         current_user = UserModel.get_user_by_username(data['username'])
-
         ValidationHandler.validate_correct_username(data['username'])
         if not current_user:
             abort(404, "User with username '{}' doesn't exist!".format(data['username']))

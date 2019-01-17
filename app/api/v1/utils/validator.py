@@ -1,19 +1,24 @@
 '''Module for handling validations'''
 from email_validator import validate_email, EmailNotValidError
 from flask import abort
+import re
+
+has_space = re.compile(r'\s')
 
 class ValidationHandler:
     '''Methods to validate the data provided by the API'''
     @staticmethod
     def validate_correct_username(username):
         '''Validation for a name'''
+        print('validating usernme', username)
         if username.isdigit():
             abort(400, 'username cannot consist of digits only')
         if not username or not username.split():
             abort(400, 'username cannot be empty')
-       # if len(username) < 5 :
-       #     abort(400, "Username should have more than five characters")
-
+        if len(username) < 5 :
+            abort(400, "Username should have more than five characters")
+        if re.search(has_space, username):
+            abort(400,"username should not have spaces")
 
     @staticmethod
     def validate_existing_user(users, username):
@@ -22,12 +27,24 @@ class ValidationHandler:
             abort(409, "A user with username '{}' already exists!".format(username))
 
     @staticmethod
+    def validate_existing_email(users, email):
+        '''Validation for an existing email'''
+        if next(filter(lambda u: u['email'] == email, users), None):
+            abort(409, "The email address is already taken")
+
+    @staticmethod
     def validate_firstname(firstname):
         '''Validation for an existing user'''
         if firstname.isdigit():
             abort(400, 'firstname cannot consist of digits only')
         if not firstname or not firstname.split():
             abort(400, 'firstname cannot be empty')
+        if firstname.isspace():
+            abort(400, 'firstname should not contain spaces.')
+        if re.search(has_space, firstname):
+            abort(400,"firstname should not have spaces")
+
+
 
     @staticmethod
     def validate_lastname(lastname):
@@ -36,13 +53,11 @@ class ValidationHandler:
             abort(400, 'lastname cannot consist of digits only')
         if not lastname or not lastname.split():
             abort(400, 'lastname cannot be empty')
-
-    @staticmethod
-    def validate_phone_number(phone_number):
-        '''Validation for an existing user'''
-        if not phone_number or not phone_number.split():
-            abort(400, 'phone_number cannot be empty')
-
+        if lastname.isspace():
+            abort(400, 'Lastname should not contain spaces.')
+        if re.search(has_space, lastname):
+            abort(400,"lastname should not have spaces")
+        
 
     @staticmethod
     def validate_password(password):

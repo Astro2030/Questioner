@@ -35,8 +35,8 @@ class UserModel():
         '''Add a new user to the data store'''
         
         return self.conn.cursor().execute("""
-            INSERT INTO users (firstname, lastname, username, email,password, is_admin) VALUES (%(firstname)s, %(lastname)s, %(username)s, %(email)s, \
-            %(password)s, %(is_admin)s);""",user)
+            INSERT INTO users (firstname, lastname, username, email, password_1, password_2, registered, is_admin) VALUES (%(firstname)s, %(lastname)s, %(username)s, %(email)s, \
+            %(password_1)s, %(password_2)s, %(registered)s, %(is_admin)s);""",user)
 
     # @staticmethod
     def get_all_users(self):

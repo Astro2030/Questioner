@@ -16,6 +16,7 @@ class MeetupModel:
         self.happening_on = kwargs.get('happening_on')
         self.tags = kwargs.get('tags')
         self.questions = kwargs.get('questions', [])
+        self.rsvps = 0
 
     def get_meetup_id(self):
         '''Fetch the meetup id'''

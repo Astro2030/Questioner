@@ -28,6 +28,7 @@ class Rsvp(Resource):
         )
 
         RsvpModel.add_rsvp(Utility.serialize(rsvp))
+        meetup['rsvps'] += 1
 
         return {
             'status': 201,

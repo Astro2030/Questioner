@@ -53,8 +53,6 @@ class ValidationHandler:
             abort(400, 'lastname cannot consist of digits only')
         if not lastname or not lastname.split():
             abort(400, 'lastname cannot be empty')
-        if lastname.isspace():
-            abort(400, 'Lastname should not contain spaces.')
         if re.search(has_space, lastname):
             abort(400,"lastname should not have spaces")
         

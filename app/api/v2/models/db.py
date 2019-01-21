@@ -4,7 +4,6 @@ import click
 from flask.cli import with_appcontext
 from flask import current_app, g
 
-
 POSTGRES_CONFIG = {
     'host':'localhost',
     'port':5432,

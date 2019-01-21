@@ -15,5 +15,4 @@ def create_app(config_name):
     reg_app(app)
     # app.register_blueprint(AUTH_BLUEPRINT)
     # app.register_blueprint(API_BLUEPRINT)
-    return app
 

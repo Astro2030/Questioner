@@ -10,7 +10,6 @@ def create_app(config_name):
     '''Instantiate the Flask application'''
     app = Flask(__name__, instance_relative_config=True)
     jwt = JWTManager(app)
-
     app.config.from_object(APP_CONFIG["development"])
     app.config.from_pyfile('config.py')
     app.teardown_appcontext(close_database)

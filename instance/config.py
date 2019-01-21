@@ -4,7 +4,7 @@ import os
 POSTGRES_CONFIG = {
     'host':'localhost',
     'port':5432,
-    'user':'admin',
+    'user':'users',
     'password': 'password123',
     'database':'questioner'
 }

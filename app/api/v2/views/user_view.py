@@ -2,8 +2,8 @@
 from flask import abort
 from flask_jwt_extended import create_access_token
 from flask_restful import Resource, reqparse
-
-from app.api.v2.utils.utility import Utility
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 from app.api.v2.utils.validator import ValidationHandler
 from app.api.v2.models.user_model import UserModel
 
@@ -18,6 +18,8 @@ class UserRegistration(Resource):
         parser.add_argument('username', type=str, required=True, help='username cannot be blank!')
         parser.add_argument('is_admin', type=bool, required=True, help='is_admin cannot be blank!')
         parser.add_argument('password', type=str, required=True, help='password cannot be blank!')
+        parser.add_argument('confirm_password', type=str, required=True, help='password cannot be blank!')
+
 
         data = parser.parse_args()
 
@@ -27,6 +29,7 @@ class UserRegistration(Resource):
         lastname=data['lastname']
         username = data['username']
         password = data['password']
+        confirm_password = data['confirm_password']
         email = data['email']
 
         # Validate the firstname
@@ -44,14 +47,17 @@ class UserRegistration(Resource):
         # Validate the password
         ValidationHandler.validate_password(password)
 
+        # confirm password match
+        ValidationHandler.verify_password_match(password, confirm_password)
+
         users = user.get_all_users()
         user_details = {
             'firstname':data['firstname'],
             'lastname':data['lastname'],
             'username': data['username'],
-            'password' : user.generate_password_hash(data['password']),
+            'password' : generate_password_hash(data['password']),
             'email' : data['email'],
-            'is_admin':False,
+            'is_admin':True,
         }
         ValidationHandler.validate_existing_user(users, username)
         new_user = user.add_user(user_details)
@@ -75,12 +81,11 @@ class UserLogin(Resource):
 
         data = parser.parse_args()
 
-        current_user = UserModel.get_user_by_username(data['username'])
+        current_user = UserModel().get_user_by_username(data['username'])
         ValidationHandler.validate_correct_username(data['username'])
         if not current_user:
             abort(404, "User with username '{}' doesn't exist!".format(data['username']))
-
-        if UserModel.verify_password_hash(data['password'], current_user['password']):
+        if check_password_hash(current_user['password'], data['password']):
             access_token = create_access_token(identity=data['username'])
             return {
                 'message': "Logged in as '{}'".format(current_user['username']),

@@ -4,11 +4,12 @@ import click
 from flask.cli import with_appcontext
 from flask import current_app, g
 
+
 POSTGRES_CONFIG = {
     'host':'localhost',
     'port':5432,
-    'user':'admin',
-    'password': 'password123',
+    'user':'postgres',
+    'password': 'password1234',
     'database':'questioner'
 }
 
@@ -16,7 +17,7 @@ def get_database():
     """create and return database connection object"""
     if 'database' not in g:
         g.db_conn = psycopg2.connect(
-            host='localhost',port=5432,user='admin',password= 'password123',database='questioner'
+            host='localhost',port=5432,user='postgres',password= 'password1234',database='questioner'
         )
         g.db_conn.autocommit = True
     return g.db_conn
@@ -41,7 +42,7 @@ def init_database():
 def init_db_command():
     """reset database content"""
     init_database()
-    click.echo('Initializing database')
+    click.echo('Initialized database')
 
 
 def reg_app(app):

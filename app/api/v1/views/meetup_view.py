@@ -26,7 +26,6 @@ class MeetupList(Resource):
 
         if not user:
             abort(401, 'This action required loggin in!')
-
         if user['is_admin']:
             meetup = MeetupModel(
                 location=data['location'],

@@ -38,6 +38,12 @@ class ValidationHandler:
             abort(400, 'lastname cannot be empty')
 
     @staticmethod
+    def verify_password_match(password, confirm_password):
+        '''verify passwords match during signup'''
+        if password != confirm_password:
+            abort(400, "Passwords don't match")
+
+    @staticmethod
     def validate_phone_number(phone_number):
         '''Validation for an existing user'''
         if not phone_number or not phone_number.split():

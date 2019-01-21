@@ -32,7 +32,7 @@ class UserRegistration(Resource):
         )
         firstname=data['firstname']
         lastname=data['lastname']
-        username = data['username']
+        username = data['username'].strip()
         password = data['password']
         email = data['email']
 
@@ -54,13 +54,14 @@ class UserRegistration(Resource):
         users = UserModel.get_all_users()
 
         ValidationHandler.validate_existing_user(users, username)
+        
+        ValidationHandler.validate_existing_email(users, email)
 
         UserModel.add_user(Utility.serialize(user))
         return {
             "status": 201,
             "data": [
                 {
-                    "id": user.get_user_id(),
                     "message": "User is successfully created"
                 }
             ]

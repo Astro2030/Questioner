@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS meetup
     created_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     location VARCHAR NOT NULL,
     topic VARCHAR NOT NULL,
-    questions INT DEFAULT 0,
     description VARCHAR(200) NOT NULL,
     happening_on VARCHAR NOT NULL
 );
@@ -38,8 +37,6 @@ create table if NOT EXISTS questions
 (
     id SERIAL PRIMARY KEY,
     created_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    created_by INT ,
-    meetup_id INT ,
     title VARCHAR NOT NULL,
     body VARCHAR NOT NULL,
     upvotes INT DEFAULT 0,              

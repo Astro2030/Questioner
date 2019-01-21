@@ -16,7 +16,6 @@ class UserRegistration(Resource):
         parser.add_argument('lastname', type=str, required=True, help='lastname cannot be blank!')
         parser.add_argument('email', type=str, required=True, help='email cannot be blank!')
         parser.add_argument('username', type=str, required=True, help='username cannot be blank!')
-        parser.add_argument('is_admin', type=bool, required=True, help='is_admin cannot be blank!')
         parser.add_argument('password', type=str, required=True, help='password cannot be blank!')
         parser.add_argument('confirm_password', type=str, required=True, help='password cannot be blank!')
 

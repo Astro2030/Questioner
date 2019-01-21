@@ -1,6 +1,5 @@
 '''Define how the application is run'''
 import os
-import db
 
 from app import create_app
 

@@ -20,8 +20,8 @@ class UserModel():
     def add_user(self,user):
         '''Add a new user to the data store'''
         return self.conn.cursor().execute("""
-            INSERT INTO users (firstname, lastname, username, email, password,is_admin) VALUES (%(firstname)s, %(lastname)s, %(username)s, %(email)s, \
-            %(password)s, %(is_admin)s);""",user)
+            INSERT INTO users (firstname, lastname, username, email, password) VALUES (%(firstname)s, %(lastname)s, %(username)s, %(email)s, \
+            %(password)s);""",user)
 
     def get_all_users(self):
         '''Fetch all users'''

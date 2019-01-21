@@ -27,8 +27,8 @@ class Question(Resource):
 
 
         question = {
-            "created_by":UserModel().get_user_by_username(current_user),
-            "meetup":meetup_id,
+            "created_by":user['username'],
+            "meetup_id":meetup_id,
             "title":data['title'],
             "body":data['body']
         }
@@ -39,17 +39,24 @@ class Question(Resource):
          # Validate the body
         ValidationHandler.validate_meetup_body(data['body'])
 
-        if meetup_id.isdigit():
-            meetup = MeetupModel().get_meetup_by_id(int(meetup_id))
-            if meetup == {}:
-                abort(404, "Meetup with id '{}' doesn't exist!".format(meetup_id))
-            QuestionModel().add_question(question, meetup_id)
-            meetup['questions'] += 1
-            response = make_response(json.dumps(meetup), 200)
-            response.headers.set('Content-Type', 'application/json')
-            return response
-        abort(400, 'meetup ID must be an integer value')
-        return None
+        # if meetup_id.isdigit():
+        meetup = MeetupModel().get_meetup_by_id(meetup_id)
+        if meetup == {}:
+            abort(404, "Meetup with id '{}' doesn't exist!".format(meetup_id))
+        QuestionModel().add_question(question)
+        meetup['questions'] += 1
+        response = make_response(json.dumps(meetup), 200)
+        response.headers.set('Content-Type', 'application/json')
+        return response
+
+    def get(self, meetup_id):
+        '''Fetch all questions to a specific meetup'''
+        Question = QuestionModel().get_all_questions_by_meetup_id(meetup_id)
+        if not Question:
+            abort(404, 'No question is available')
+        response = make_response(json.dumps(Question), 200)
+        response.headers.set('Content-Type', 'application/json')
+        return response
 
 class Upvote(Resource):
     '''Upvotes requests'''
@@ -66,7 +73,7 @@ class Upvote(Resource):
         return {
             "status": 200,
             "data": [
-                {
+                { 
                     "meetup": meetup_id,
                     "title": question["title"],
                     "body": question["body"],

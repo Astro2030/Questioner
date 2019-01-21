@@ -11,8 +11,17 @@ class QuestionModel:
         '''initialize db connection'''
         self.conn = get_database()
 
-    def add_question(self, questions, meetup_id):
+    def add_question(self, questions):
         '''Add a new question to the data store'''
         return self.conn.cursor().execute("""
-            INSERT INTO questions (title, body, meetup_id) VALUES (%(title)s, %(body)s, %(meetup_id)d);""",questions)
+            INSERT INTO questions (title, body, meetup_id, created_by) VALUES (%(title)s, %(body)s, %(meetup_id)s, %(created_by)s);""",questions)
+
+    def get_all_questions_by_meetup_id(self,meetup_id):
+        '''Fetch all meetup questions'''
+        query_string = 'SELECT * FROM questions WHERE meetup_id = %s;'
+        cursor = self.conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute(query_string, (meetup_id,))
+        return cursor.fetchall()
+    
+
         

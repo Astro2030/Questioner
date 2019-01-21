@@ -1,5 +1,6 @@
 '''Application configuration file'''
 import os
+import datetime
 
 POSTGRES_CONFIG = {
     'host':'localhost',
@@ -14,6 +15,7 @@ class Config(object):
     DEBUG = False
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_secret')
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(hours=1)
 
 class DevelopmentConfig(Config):
     """Development environment configurations"""

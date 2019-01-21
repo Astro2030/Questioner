@@ -3,7 +3,7 @@ from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 # from 
 
-from app.api.v1 import AUTH_BLUEPRINT, API_BLUEPRINT
+from app.api.v2 import AUTH_BLUEPRINT, API_BLUEPRINT
 
 from instance.config import APP_CONFIG
 
@@ -11,6 +11,7 @@ def create_app(config_name):
     '''Instantiate the Flask application'''
     app = Flask(__name__, instance_relative_config=True)
     jwt = JWTManager(app)
+
     @app.errorhandler(404)
     def not_found(e):
         """custom error handler for 404 Not Found Error"""

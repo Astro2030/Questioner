@@ -7,8 +7,8 @@ from flask import current_app, g
 POSTGRES_CONFIG = {
     'host':'localhost',
     'port':5432,
-    'user':'users',
-    'password': 'password123',
+    'user':'postgres',
+    'password': 'password1234',
     'database':'questioner'
 }
 

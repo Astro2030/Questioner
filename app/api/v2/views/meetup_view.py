@@ -49,3 +49,14 @@ class MeetupList(Resource):
             'data': meetup
         }, 201
 
+class UpcomingMeetup(Resource):
+    '''Request on an upcoming meetup item'''
+    @jwt_required
+    def get(self):
+        '''Fetch all upcoming meetups'''
+        meetup = MeetupModel().get_all_meetups()
+        if not meetup:
+            abort(404, 'No meetup is available')
+        response = make_response(json.dumps(meetup), 200)
+        response.headers.set('Content-Type', 'application/json')
+        return response

@@ -38,8 +38,8 @@ create table if NOT EXISTS questions
 (
     id SERIAL PRIMARY KEY,
     created_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    created_by INT ,
-    meetup_id INT ,
+    created_by INT NOT NULL,
+    meetup_id INT NOT NULL,
     title VARCHAR NOT NULL,
     body VARCHAR NOT NULL,
     upvotes INT DEFAULT 0,              

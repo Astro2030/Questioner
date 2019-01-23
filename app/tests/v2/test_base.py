@@ -1,6 +1,5 @@
 import json
 import unittest
-import pytest
 
 from datetime import datetime
 from app.api.v2.models.db import init_db_command
@@ -14,17 +13,26 @@ class BaseTestCase(unittest.TestCase):
         self.client = self.app.test_client
 
         self.user_registration = dict(
-            firstname="test_first",
-            lastname="test_last",
+            firstname="testfirst",
+            lastname="testlast",
             email="test@example.com",
             username="username",
             password="Venter@omari",
             confirm_password="Venter@omari"
         )
+        
+        self.user_reg = dict(
+            username = "vincento",
+            password ="kenyamoja5!",
+            confirm_password ="kenyamoja5!",
+            firstname = "verencelola",
+            lastname = "obonyo",
+            email = "vince@gmail.com"
+        )
 
         self.digit_username = dict(
-            firstname="test_first",
-            lastname="test_last",
+            firstname="testfirst",
+            lastname="testlast",
             email="test@example.com",
             username="1234",
             password="Venter@omari",
@@ -33,8 +41,8 @@ class BaseTestCase(unittest.TestCase):
         )
 
         self.empty_username = dict(
-            firstname="test_first",
-            lastname="test_last",
+            firstname="testfirst",
+            lastname="testlast",
             email="test@example.com",
             username="",
             password="Venter@omari",
@@ -42,8 +50,8 @@ class BaseTestCase(unittest.TestCase):
         )
 
         self.empty_password = dict(
-            firstname="test_first",
-            lastname="test_last",
+            firstname="testfirst",
+            lastname="testlast",
             email="test@example.com",
             username="username",
             password="",
@@ -51,8 +59,8 @@ class BaseTestCase(unittest.TestCase):
         )
 
         self.wrong_email_registration = dict(
-            firstname="test_first",
-            lastname="test_last",
+            firstname="testfirst",
+            lastname="testlast",
             email="testexample.com",
             username="username",
             password="Venter@omari",
@@ -127,8 +135,6 @@ class BaseTestCase(unittest.TestCase):
             headers=self.get_authentication_headers(access_token),
             data=json.dumps(question)
         )
-    def tear_down(self):
-        destroy_database()
 
 if __name__ == "__main__":
     unittest.main()

@@ -5,8 +5,8 @@ import datetime
 POSTGRES_CONFIG = {
     'host':'localhost',
     'port':5432,
-    'user':'users',
-    'password': 'password123',
+    'user':'postgres',
+    'password': 'password1234',
     'database':'questioner'
 }
 
@@ -20,11 +20,15 @@ class Config(object):
 class DevelopmentConfig(Config):
     """Development environment configurations"""
     DEBUG = True
+    POSTGRES_CONFIG = 'postgresql://%(user)s:%(password)s@%(host)s:\
+    %(port)s/%(database)s' % POSTGRES_CONFIG
 
 class TestingConfig(Config):
     """Testing environment configurations"""
     TESTING = True
     DEBUG = True
+    POSTGRES_CONFIG = 'postgresql://%(user)s:%(password)s@%(host)s:\
+    %(port)s/test_db' % POSTGRES_CONFIG
 
 class StagingConfig(Config):
     """Staging environment configurations"""

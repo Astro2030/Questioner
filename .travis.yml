@@ -9,12 +9,12 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-  - createdb testdb
+  - createdb test_db
 
 script:
  - export FLASK_ENV=Testing
  - pytest
  - coverage run --source=app -m pytest && coverage report
- 
+
 after_success:
   - coveralls

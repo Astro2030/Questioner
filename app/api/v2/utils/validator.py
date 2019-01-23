@@ -1,6 +1,7 @@
 '''Module for handling validations'''
 from email_validator import validate_email, EmailNotValidError
 from flask import abort
+import re
 
 class ValidationHandler:
     '''Methods to validate the data provided by the API'''
@@ -11,10 +12,11 @@ class ValidationHandler:
             abort(400, 'username cannot consist of digits only')
         if not username or not username.split():
             abort(400, 'username cannot be empty')
+        if " " in username:
+            abort(400, "username cannot contain empty spaces")
         if len(username) < 5 :
            abort(400, "Username should have more than five characters")
-
-
+        
     @staticmethod
     def validate_existing_user(users, username):
         '''Validation for an existing user'''
@@ -28,7 +30,9 @@ class ValidationHandler:
             abort(400, 'firstname cannot consist of digits only')
         if not firstname or not firstname.split():
             abort(400, 'firstname cannot be empty')
-
+        if " " in firstname:
+            abort(400, "firstname cannot contain empty spaces")
+     
     @staticmethod
     def validate_lastname(lastname):
         '''Validation for an existing user'''
@@ -36,6 +40,8 @@ class ValidationHandler:
             abort(400, 'lastname cannot consist of digits only')
         if not lastname or not lastname.split():
             abort(400, 'lastname cannot be empty')
+        if " " in lastname:
+            abort(400, "lastname cannot contain empty spaces")
 
     @staticmethod
     def verify_password_match(password, confirm_password):
@@ -44,19 +50,10 @@ class ValidationHandler:
             abort(400, "Passwords don't match")
 
     @staticmethod
-    def validate_phone_number(phone_number):
-        '''Validation for an existing user'''
-        if not phone_number or not phone_number.split():
-            abort(400, 'phone_number cannot be empty')
-
-
-    @staticmethod
     def validate_password(password):
         '''Validation for a password'''
-        if not password or not password.split():
-            abort(400, "password cannot be empty")
-        if len(password) < 5 :
-            abort(400, "password should have more than five characters")
+        if not re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
+            abort(400, "Enter a strong password")
 
     @staticmethod
     def validate_email_address(email):

@@ -1,13 +1,14 @@
 """create and manage the database object"""
 import psycopg2
 import click
+import os
 from flask.cli import with_appcontext
 from flask import current_app, g
 from sys import modules
 
 def get_database():
     """create and return database connection object"""
-    if 'pytest' in modules:
+    if os.getenv('APP_SETTINGS') == 'testing':
         g.db_conn = psycopg2.connect(
             host='localhost',port=5432,user='postgres',password= 'password1234', database='test_db'
         )

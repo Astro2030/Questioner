@@ -1,8 +1,9 @@
 import json
 import unittest
+import pytest
 
 from datetime import datetime
-from app.api.v2.models.db import init_db_command
+from app.api.v2.models.db import init_db_command,destroy_database
 from app import create_app
 from app.api.v2.models.user_model import UserModel
 
@@ -11,7 +12,7 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client
-        
+
         self.user_registration = dict(
             firstname="test_first",
             lastname="test_last",

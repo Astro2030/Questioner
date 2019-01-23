@@ -3,18 +3,16 @@ import psycopg2
 import click
 from flask.cli import with_appcontext
 from flask import current_app, g
-
-POSTGRES_CONFIG = {
-    'host':'localhost',
-    'port':5432,
-    'user':'postgres',
-    'password': 'password1234',
-    'database':'questioner'
-}
+from sys import modules
 
 def get_database():
     """create and return database connection object"""
-    if 'database' not in g:
+    if 'pytest' in modules:
+        g.db_conn = psycopg2.connect(
+            host='localhost',port=5432,user='postgres',password= 'password1234', database='test_db'
+        )
+        g.db_conn.autocommit = True
+    else :
         g.db_conn = psycopg2.connect(
             host='localhost',port=5432,user='postgres',password= 'password1234',database='questioner'
         )

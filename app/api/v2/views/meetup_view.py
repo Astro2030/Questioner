@@ -24,9 +24,7 @@ class MeetupList(Resource):
         data = parser.parse_args()
 
         current_user = get_jwt_identity()
-        print(current_user)
         user = UserModel().get_user_by_username(current_user)
-        print(user)
         if not user:
             abort(401, 'This action requires loggin in!')
 
@@ -42,12 +40,36 @@ class MeetupList(Resource):
 
         # Validate the topic
         ValidationHandler.validate_meetup_topic(data['topic'])
-
+        is_meet_up_extisting = MeetupModel().is_meet_up_existing(
+            meetup["location"],
+            meetup["topic"],
+            meetup["happening_on"]
+            )
+        if is_meet_up_extisting:
+            abort(409, 'This meetup has already been scheduled') 
+        
         MeetupModel().add_meetup(meetup)
         return {
             'status': 201,
             'data': meetup
         }, 201
+
+
+class Meetup(Resource):
+    '''Request on a meetup item'''
+    @jwt_required
+    def get(self, meetup_id):
+        '''Fetch a single meetup item'''
+        if meetup_id.isdigit():
+            meetup = MeetupModel().get_meetup_by_id(meetup_id)
+            if meetup == {}:
+                abort(404, "Meetup with id '{}' doesn't exist!".format(meetup_id))
+            response = make_response(json.dumps(meetup), 200)
+            response.headers.set('Content-Type', 'application/json')
+            return response
+        abort(400, 'Meetup ID must be an Integer')
+        return None
+
 
 class UpcomingMeetup(Resource):
     '''Request on an upcoming meetup item'''

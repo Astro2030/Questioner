@@ -3,7 +3,7 @@ import unittest
 import pytest
 
 from datetime import datetime
-from app.api.v2.models.db import init_db_command,destroy_database
+from app.api.v2.models.db import init_db_command
 from app import create_app
 from app.api.v2.models.user_model import UserModel
 

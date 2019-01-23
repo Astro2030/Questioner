@@ -24,9 +24,7 @@ class MeetupList(Resource):
         data = parser.parse_args()
 
         current_user = get_jwt_identity()
-        print(current_user)
         user = UserModel().get_user_by_username(current_user)
-        print(user)
         if not user:
             abort(401, 'This action requires loggin in!')
 
@@ -37,12 +35,19 @@ class MeetupList(Resource):
             "happening_on":MeetupModel.convert_string_to_date(data['happening_on']),
         }
 
-            # Validate the location
+        # Validate the location
         ValidationHandler.validate_meetup_location(data['location'])
 
-            # Validate the topic
+        # Validate the topic
         ValidationHandler.validate_meetup_topic(data['topic'])
-
+        is_meet_up_extisting = MeetupModel().is_meet_up_existing(
+            meetup["location"],
+            meetup["topic"],
+            meetup["happening_on"]
+            )
+        if is_meet_up_extisting:
+            abort(409, 'This meetup has already been scheduled') 
+        
         MeetupModel().add_meetup(meetup)
         return {
             'status': 201,

@@ -48,7 +48,6 @@ class UserRegistration(Resource):
 
         # confirm password match
         ValidationHandler.verify_password_match(password, confirm_password)
-
         users = user.get_all_users()
         user_details = {
             'firstname':data['firstname'],
@@ -56,7 +55,6 @@ class UserRegistration(Resource):
             'username': data['username'],
             'password' : generate_password_hash(data['password']),
             'email' : data['email'],
-            'is_admin':True,
         }
         ValidationHandler.validate_existing_user(users, username)
         new_user = user.add_user(user_details)

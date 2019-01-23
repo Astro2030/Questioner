@@ -33,6 +33,13 @@ class MeetupModel:
         cursor.execute(query_string, (id,))
         return cursor.fetchone() 
 
+    def get_meetup_by_topic(self,topic):
+        '''Return a meetup given a meetup id'''
+        query_string = "SELECT * FROM meetup WHERE topic = %s;"
+        cursor = self.conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute(query_string, (topic,))
+        return cursor.fetchone() 
+
     def get_all_meetups(self):
         '''Fetch all meetups'''
         query_string = 'SELECT * FROM meetup;'
@@ -42,7 +49,16 @@ class MeetupModel:
 
     def get_question_by_id(self, meetup, id):
         '''Fetch a question by id'''
-        query_string = "SELECT * FROM question WHERE id = %s;"
+        query_string = "SELECT * FROM questions WHERE id = %s;"
         cursor = self.conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute(query_string, (id,))
         return cursor.fetchone()
+
+    def is_meet_up_existing(self,location,topic,happening_on):
+        """ doc """
+        query_string ="SELECT * FROM meetup where location=%s and topic=%s and happening_on=%s;"
+        cursor = self.conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute(query_string, (location,topic,happening_on, ))
+        result = cursor.fetchall()
+        return len(result)!=0
+    

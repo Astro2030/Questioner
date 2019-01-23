@@ -23,8 +23,8 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     """Testing environment configurations"""
-    TESTING = True
     DEBUG = True
+    TESTING = True
 
 class StagingConfig(Config):
     """Staging environment configurations"""

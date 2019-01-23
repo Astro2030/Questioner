@@ -127,6 +127,8 @@ class BaseTestCase(unittest.TestCase):
             headers=self.get_authentication_headers(access_token),
             data=json.dumps(question)
         )
+    def tear_down(self):
+        destroy_database()
 
 if __name__ == "__main__":
     unittest.main()

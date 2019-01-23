@@ -5,14 +5,20 @@ from app.tests.v2.test_base import BaseTestCase
 
 class UserTestCase(BaseTestCase):
     '''Test definitions for a user'''
-    def test_username_registration(self):
-        '''Test the API can register a user'''
+    def test_creating_user(self):
         res = self.client().post(
             'api/v2/auth/register',
             headers=self.get_accept_content_type_headers(),
             data=json.dumps(self.user_registration)
         )
-        self.assertEqual(res.status_code, 409)
+        self.assertEqual(res.status_code, 201)
+        response_msg = json.loads(res.data.decode("UTF-8"))
+        self.assertEqual(response_msg["status"], 201)
+        self.assertTrue(response_msg["data"][0]["message"])
+        self.assertEqual(
+            response_msg["data"][0]["message"],
+            "User is successfully created"
+        )
 
 
     def test_digit_username(self):
@@ -57,19 +63,24 @@ class UserTestCase(BaseTestCase):
             "The email address is not valid. It must have exactly one @-sign."
         )
 
-    def test_username_login(self):
+    def test_user_login(self):
         '''Test the API can log in a user'''
         res = self.client().post(
             'api/v2/auth/register',
             headers=self.get_accept_content_type_headers(),
-            data=json.dumps(self.user_registration)
+            data=json.dumps(self.user_reg)
         )
         self.assertEqual(res.status_code, 201)
+        response_msg = json.loads(res.data.decode("UTF-8"))
+        self.assertEqual(response_msg["status"], 201)
         res = self.client().post(
             'api/v2/auth/login',
             headers=self.get_accept_content_type_headers(),
             data=json.dumps(self.user_login)
         )
+        response_msg = json.loads(res.data.decode("UTF-8"))
+        print(response_msg)
         self.assertEqual(res.status_code, 200)
+        self.assertEqual(response_msg['message'], "Logged in as 'username'")
 
     

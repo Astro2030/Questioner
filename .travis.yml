@@ -14,7 +14,6 @@ before_script:
   - flask init-db
 script:
  - export FLASK_ENV=testing
- - pytest
  - coverage run --source=app -m pytest && coverage report
 
 after_success:

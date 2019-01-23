@@ -55,7 +55,7 @@ class MeetupModel:
         return cursor.fetchone()
 
     def is_meet_up_existing(self,location,topic,happening_on):
-        """ doc """
+        """ Fetches the a meetup matching the one provided """
         query_string ="SELECT * FROM meetup where location=%s and topic=%s and happening_on=%s;"
         cursor = self.conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute(query_string, (location,topic,happening_on, ))

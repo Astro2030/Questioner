@@ -46,7 +46,7 @@ class MeetupList(Resource):
             meetup["happening_on"]
             )
         if is_meet_up_extisting:
-            abort(409, 'This meetup has already been scheduled') 
+            abort(409, 'This meetup has already been scheduled'),409
         
         MeetupModel().add_meetup(meetup)
         return {
@@ -66,7 +66,14 @@ class Meetup(Resource):
                 abort(404, "Meetup with id '{}' doesn't exist!".format(meetup_id))
             response = make_response(json.dumps(meetup), 200)
             response.headers.set('Content-Type', 'application/json')
-            return response
+            return {
+                "status": 200,
+                "data": [
+                    {   
+                        "response" : response
+                    }
+                ]
+            }, 200
         abort(400, 'Meetup ID must be an Integer')
         return None
 

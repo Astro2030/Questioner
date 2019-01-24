@@ -23,13 +23,32 @@ class QuestionModel:
         cursor.execute(query_string, (meetup_id,))
         return cursor.fetchall()
 
-    def update_upvotes(self):
-        '''Increment votes'''
-        query_string = 'update questions set upvotes = upvotes +1;'
+    def get_questions_by_meetup_id(self,meetup_id):
+        '''Fetch all meetup questions'''
+        query_string = 'SELECT * FROM questions WHERE meetup_id = %s;'
         cursor = self.conn.cursor(cursor_factory=RealDictCursor)
-        cursor.execute(query_string,)
-        self.conn.commit()
-        return self.conn.commit('''update questions set upvotes = upvotes +1;''')
+        cursor.execute(query_string, (meetup_id,))
+        return cursor.fetchone()
+
+    def update_upvotes(self, question_id, Upvote):
+        '''Increment votes'''
+        query_string = 'update questions set upvotes = %(Upvote)s where id=%(question_id)s;'
+        cursor = self.conn.cursor()
+        return cursor.execute(query_string,{'question_id':question_id, 'Upvote':Upvote})
+
+    def update_downvotes(self, question_id, Downvote):
+        '''Increment votes'''
+        query_string = 'update questions set upvotes = %(Upvote)s where id=%(question_id)s;'
+        cursor = self.conn.cursor()
+        return cursor.execute(query_string,{'question_id':question_id, 'Upvote':Downvote})
+
+    def is_question_existing(self,title,body):
+        """ doc """
+        query_string ="SELECT * FROM questions where title=%s and body=%s;"
+        cursor = self.conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute(query_string, (title,body))
+        result = cursor.fetchall()
+        return len(result)!=0
 
 
     

@@ -2,8 +2,7 @@
 from flask import abort
 from flask_jwt_extended import create_access_token
 from flask_restful import Resource, reqparse
-from werkzeug.security import generate_password_hash
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash,check_password_hash
 from app.api.v2.utils.validator import ValidationHandler
 from app.api.v2.models.user_model import UserModel
 
@@ -22,8 +21,7 @@ class UserRegistration(Resource):
 
         data = parser.parse_args()
 
-        # Create an instance of a user
-        user = UserModel()
+        user=UserModel()
         firstname=data['firstname']
         lastname=data['lastname']
         username = data['username']
@@ -48,25 +46,29 @@ class UserRegistration(Resource):
 
         # confirm password match
         ValidationHandler.verify_password_match(password, confirm_password)
-        users = user.get_all_users()
+        users = UserModel().get_all_users()
+
         user_details = {
             'firstname':data['firstname'],
             'lastname':data['lastname'],
             'username': data['username'],
             'password' : generate_password_hash(data['password']),
-            'email' : data['email'],
+            'email' : data['email']
         }
         ValidationHandler.validate_existing_user(users, username)
         new_user = user.add_user(user_details)
 
+        val = UserModel().get_user_by_username(username)
+        print(val)
+        print(new_user)
         return {
-            "status": 201,
-            "data": [
-                {
-                    "message": "User is successfully created"
-                }
-            ]
-        }, 201
+                "status": 201,
+                "data": [
+                    {   
+                        "message" : "User is successfully created"
+                    }
+                ]
+            }, 201
 
 class UserLogin(Resource):
     '''Log in a user'''
@@ -85,8 +87,14 @@ class UserLogin(Resource):
         if check_password_hash(current_user['password'], data['password']):
             access_token = create_access_token(identity=data['username'])
             return {
-                'message': "Logged in as '{}'".format(current_user['username']),
-                'access_token': access_token
+                    'status':200,
+                    "data":[
+
+                        {
+                            'message' : "Logged in as '{}'".format(current_user['username']),
+                            'access_token' : access_token
+                        }
+                    ]
             }, 200
         abort(401, 'Wrong credentials')
         return None

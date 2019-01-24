@@ -2,7 +2,6 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS meetup CASCADE;
 DROP TABLE IF EXISTS questions CASCADE;
-DROP TABLE IF EXISTS rsvps CASCADE;
 
 CREATE TABLE IF NOT EXISTS users
 (
@@ -44,14 +43,4 @@ create table if NOT EXISTS questions
     body VARCHAR NOT NULL,
     upvotes INT DEFAULT 0,              
     downvotes INT DEFAULT 0
-);
-
-CREATE TABLE IF NOT EXISTS rsvps
-(
-    id SERIAL PRIMARY KEY,
-    meetup_id INT NOT NULL,
-    user_id INT NOT NULL,
-    response VARCHAR NOT NULL,
-    FOREIGN KEY (meetup_id) REFERENCES meetups (id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );

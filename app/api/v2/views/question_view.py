@@ -81,3 +81,27 @@ class Upvote(Resource):
                 }
             ]
         }, 200
+
+class Downvote(Resource):
+    '''Downvotes requests'''
+    @jwt_required
+    def patch(self, meetup_id, question_id):
+        '''Decrease the vote of a question by 1'''
+        meetup = MeetupModel().get_meetup_by_id(int(meetup_id))
+        if meetup == {}:
+            abort(404, "Meetup with ID '{}' doesn't exist!".format(meetup_id))
+        question = MeetupModel().get_question_by_id(meetup, int(question_id))
+        if question == {}:
+            abort(404, "Question with ID '{}' doesn't exist!".format(question_id))
+        question["downvotes"] += 1
+        return {
+            "status": 200,
+            "data": [
+                {
+                    "meetup": meetup_id,
+                    "title": question["title"],
+                    "body": question["body"],
+                    "downvotes": question["downvotes"]
+                }
+            ]
+        }, 200

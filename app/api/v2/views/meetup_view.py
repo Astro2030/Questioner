@@ -8,12 +8,12 @@ from json import dumps
 from app.api.v2.models.meetup_model import MeetupModel
 from app.api.v2.models.user_model import UserModel
 from app.api.v2.utils.validator import ValidationHandler
-from app.api.v2.utils.route_protector import admin_required
+# from app.api.v2.utils.route_protector import admin_required
 
 class MeetupList(Resource):
     '''Request on a meetup list'''
     @jwt_required
-    @admin_required
+    # @admin_required
     def post(self):
         '''Create a meetup record'''
         parser = reqparse.RequestParser()
@@ -53,6 +53,7 @@ class MeetupList(Resource):
             'status': 201,
             'data': meetup
         }, 201
+
 
 
 class Meetup(Resource):

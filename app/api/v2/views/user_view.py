@@ -48,19 +48,20 @@ class UserRegistration(Resource):
         ValidationHandler.verify_password_match(password, confirm_password)
         users = UserModel().get_all_users()
 
+        email_exists = UserModel().get_email(data['email'])
+        if email_exists:
+            abort(409, 'The email address already exists'),409
+
         user_details = {
             'firstname':data['firstname'],
             'lastname':data['lastname'],
             'username': data['username'],
             'password' : generate_password_hash(data['password']),
+            'is_admin' : False,
             'email' : data['email']
         }
         ValidationHandler.validate_existing_user(users, username)
         new_user = user.add_user(user_details)
-
-        val = UserModel().get_user_by_username(username)
-        print(val)
-        print(new_user)
         return {
                 "status": 201,
                 "data": [

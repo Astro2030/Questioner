@@ -16,10 +16,10 @@ or bottom of the log. The application has two roles, the Administrator role and 
 
 URL Endpoint                          | HTTP Request   |  Description                     | Access         |
 -----------------------------------   | -------------  | -----------------------          |--------------- |
-api/v1/meetups/upcoming                |     GET        |  Retrieves all upcoming meetups            |  Public        |
-api/v1/meetup/<int:meetup_id>         |     GET        |  Retrieves a specific meetup     |  Public        |
+api/v2/meetups/upcoming                |     GET        |  Retrieves all upcoming meetups            |  Public        |
+api/v2/meetup/<int:meetup_id>         |     GET        |  Retrieves a specific meetup     |  Public        |
 /meetups/<meetup_id>/rsvps|     POST       |  Confirms attendance to a meetup |  public        |
-api/v1/meeetups   |    POST    |    Creates meetups   | private |
+api/v2/meeetups   |    POST    |    Creates meetups   | private |
 
 # Questions API Endpoints
 
@@ -33,8 +33,8 @@ URL Endpoint                          | HTTP Request   |  Description           
 
 URL Endpoint                          | HTTP Request   |  Description                     | Access         |
 -----------------------------------   | -------------  | -----------------------          |--------------- |
-api/v1/auth/register                      |     POST        |  Registers users            |  Public        |
-api/v1/auth/login    |     POST       |  Log's in a user     |  Public        |
+api/v2/auth/register                      |     POST        |  Registers users            |  Public        |
+api/v2/auth/login    |     POST       |  Log's in a user     |  Public        |
 
 # Installing the Application Locally
 To use the application locally, please proceed as follows: Before running the application:
@@ -65,7 +65,7 @@ The cloned repo has a number of tests included for the testing against the appli
 
 *run pytest to run using pytest only.*
 
-*run coverage run --source /app/api/v1/ -m pytest app/tests/v1 -q*
+*run coverage run --source /app/api/v2/ -m pytest app/tests/v2 -q*
 
 *The application can also be tested using Postman.*
 

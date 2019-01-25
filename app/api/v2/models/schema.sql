@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS users
     registered TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     email VARCHAR(254) UNIQUE NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL
+    password TEXT NOT NULL,
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 CREATE index username_index on users (username);
 CREATE index email_index on users (email);
@@ -44,3 +45,6 @@ create table if NOT EXISTS questions
     upvotes INT DEFAULT 0,              
     downvotes INT DEFAULT 0
 );
+
+-- INSERT INTO users (firstname, lastname, username, email, password, is_admin) VALUES ('Wycliffe', 'Omari', 'Cliffe', 'omariwycliffe@gmail.com', 
+--             'Andela1!!!', True);

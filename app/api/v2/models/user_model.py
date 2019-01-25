@@ -36,3 +36,10 @@ class UserModel():
         cursor = self.conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute(query_string, (username,))
         return cursor.fetchone()
+
+    def get_email(self, email):
+        '''check if email exists'''
+        query_string = "SELECT * FROM users WHERE email = %s;"
+        cursor = self.conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute(query_string, (email,))
+        return cursor.fetchone()

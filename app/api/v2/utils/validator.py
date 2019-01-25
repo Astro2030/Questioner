@@ -52,6 +52,8 @@ class ValidationHandler:
     @staticmethod
     def validate_password(password):
         '''Validation for a password'''
+        if not password or not password.split():
+            abort(400, 'password cannot be empty')
         if not re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
             abort(400, "Enter a strong password")
 
